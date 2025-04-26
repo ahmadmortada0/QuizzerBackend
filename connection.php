@@ -1,11 +1,12 @@
-<php
-    $domain ="mysql:host=localhost;dbname=quizzerdb"
-    $username ="root"
-    $password=""
+<?php
+try{
+    $domain = 'mysql:host=localhost:3307;dbname=quizzerdb';
+    $username ='root';
+    $password='';
     
-    try {
-        $connection =new PDO($domain,$username,$password);
-    }
-    catch{
-        echo 'zzzzzzz'
-    }
+    $connection =new PDO($domain,$username,$password);
+}
+catch(\throwable $e){
+    echo $e;
+}
+    
