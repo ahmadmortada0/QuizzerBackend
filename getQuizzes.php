@@ -1,7 +1,6 @@
 <?php 
 include('./connection.php');
 
-header('Content-Type: application/json');
 
 try {
 
