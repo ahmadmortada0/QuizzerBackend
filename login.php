@@ -1,8 +1,5 @@
 <?php 
 include('./connection.php');
-
-header('Content-Type: application/json');
-
 try {
 
     if (isset($_POST["email"]) && isset($_POST["password"])) {
@@ -41,13 +38,6 @@ try {
         "message" => "error",
     ]);
 }
-// }
-// catch (\Throwable $e) {
-//  echo json_encode(["
-//      message "=>"not found "
-//      ]);
-// }
-
 //  $result=[];
 //  while ($user=$query->fetch(PDO::FETCH_ASSOC)){
 //  array_push(result,$user);
