@@ -11,14 +11,12 @@ try {
         $query = $connection->prepare("SELECT * FROM `questions` WHERE quizID = :id");
         $query->bindParam(':id', $id, PDO::PARAM_INT);
         $query->execute();
-        $quiz = $query->fetch(PDO::FETCH_ASSOC);
-    if ($quiz) {
-        echo json_encode($quiz);
-    } else {
-        echo json_encode([
-            "message" => "No quiz found "
-        ]);
-    }
+        $result=[];
+        while ($quiz=$query->fetch(PDO::FETCH_ASSOC)){
+       //  array_push(result,$quiz);
+        $result[]=$quiz;
+        }
+       echo json_encode($result);
 }
 catch (Throwable $e) {
     echo json_encode([
