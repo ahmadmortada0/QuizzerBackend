@@ -13,12 +13,11 @@ try {
         $query->execute();
 
 
-        $quiz = $query->fetch(PDO::FETCH_ASSOC);
 
         echo json_encode([
             "message" => "the question created"]);
 
-        echo json_encode($quiz);
+;
     
 }
  catch (Throwable $e) {

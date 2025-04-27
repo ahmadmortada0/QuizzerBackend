@@ -8,8 +8,6 @@ try {
         $descreption = $_GET["quizDescreption"];
         $question = $_GET["quizQuestion"];
     }
-        // $query = $connection->prepare("INSERT INTO `quizzes` (quizTitle, quizDescreption, quizQuestion) VALUES (:title, :descreption,:question)");
-
         $query = $connection->prepare("SELECT * FROM `quizzes` where quizID=:id");
         $query->bindParam(':id', $id, PDO::PARAM_INT);
        
