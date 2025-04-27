@@ -1,43 +1,53 @@
-<?php 
+<?php  
 include('./connection.php');
-
-header('Content-Type: application/json');
-
 try {
+    if (isset($_GET["quizID"])&&isset($_GET["quizTitle"])&&isset($_GET["quizDescreption"])&&isset($_GET["quizQuestion"]))
+    {
+        $id=$_GET["quizID"];
+        $title = $_GET["quizTitle"];
+        $descreption = $_GET["quizDescreption"];
+        $question = $_GET["quizQuestion"];
+    }
+        // $query = $connection->prepare("INSERT INTO `quizzes` (quizTitle, quizDescreption, quizQuestion) VALUES (:title, :descreption,:question)");
 
-    if (isset($_POST["email"]) && isset($_POST["password"])) {
-        $email = $_POST["email"];
-        $password = $_POST["password"];
-
-
-        $query = $connection->prepare("SELECT * FROM `users` WHERE userEmail = :email AND userPassword = :password");
-
-        $query->bindParam(':email', $email, PDO::PARAM_STR);
-        $query->bindParam(':password', $password, PDO::PARAM_STR);
-
-
+        $query = $connection->prepare("SELECT * FROM `quizzes` where quizID=:id");
+        $query->bindParam(':id', $id, PDO::PARAM_INT);
+       
         $query->execute();
+        $quiz=$query->fetch(PDO::FETCH_ASSOC);
+        if($quiz)
+        {
+            $query = $connection->prepare("UPDATE `quizzes` SET `quizTitle` = :quizTitle, `quizDescreption` = :quizDescreption, `quizQuestion` = :quizQuestion WHERE `quizzes`.`quizID` = :id");
+            $query->bindParam(':id', $id, PDO::PARAM_INT);
+            $query->bindParam(':quizTitle', $title, PDO::PARAM_STR);
+            $query->bindParam(':quizDescreption', $descreption, PDO::PARAM_STR);
+            $query->bindParam(':quizQuestion', $question, PDO::PARAM_STR);
+            
+            $query->execute();
+        
+            
 
 
-        $user = $query->fetch(PDO::FETCH_ASSOC);
-
-        if ($user) {
             echo json_encode([
-                "message" => "WELCOME"
-            ]);
-        } else {
-            echo json_encode([
-                "message" => "Not found"
+                "message" => "The quiz was updated successfully!",
+                "quiz" => [
+                    "id" => $id,
+                    "title" => $title,
+                    "descreption" => $descreption,
+                    "question" => $question
+                ]
             ]);
         }
-    } else {
+        else{
+            
         echo json_encode([
-            "message" => "Missing email or password"
-        ]);
-    }
-} catch (Throwable $e) {
-    http_response_code(500);
+            "message" => "NO QUESTION FOUND"]);
+        }
+    
+}
+ catch (Throwable $e) {
     echo json_encode([
         "message" => "error",
+        "error" => $e->getMessage()
     ]);
 }
